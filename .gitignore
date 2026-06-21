@@ -1,6 +1,3 @@
-# Mengabaikan file konfigurasi database sensitif
-config/database.php
-
 # Mengabaikan folder IDE
 .vscode/
 .idea/
