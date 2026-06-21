@@ -1,25 +1,36 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 // index.php
 session_start();
 require_once __DIR__ . '/config/database.php';
 
+// 1. Deteksi base folder otomatis (Localhost vs Railway)
+$base_folder = ($_SERVER['HTTP_HOST'] == 'localhost') ? '/donasi' : '';
+
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-$base_folder = '/donasi'; 
-$path = substr($path, strlen($base_folder));
+
+// 2. Hapus base_folder dari path HANYA jika string tersebut benar-benar ada di awal URL
+if ($base_folder !== '' && strpos($path, $base_folder) === 0) {
+    $path = substr($path, strlen($base_folder));
+}
+
 $pathParts = array_values(array_filter(explode('/', trim($path, '/'))));
 
-$page = $pathParts[0] ?? 'home';
+// 3. Paksa $page menjadi huruf kecil agar lolos pengecekan in_array
+$page = isset($pathParts[0]) ? strtolower($pathParts[0]) : 'home';
 $param = $pathParts[1] ?? null; 
 $id = $pathParts[2] ?? null;
 
 // Jika user mengakses root, arahkan ke auth jika belum login
-if ($page === 'home') {
+if ($page === 'home' || $page === '') {
     if (!isset($_SESSION['user_id'])) {
-        header('Location: /donasi/auth');
+        header('Location: ' . $base_folder . '/auth/login');
         exit;
     }
     // Sementara arahkan ke kampanye sebagai halaman utama admin
-    header('Location: /donasi/kampanye');
+    header('Location: ' . $base_folder . '/kampanye');
     exit;
 }
 
@@ -30,6 +41,7 @@ if (!in_array($page, $allowedControllers)) {
     exit;
 }
 
+// 4. Pastikan huruf pertama Controller selalu kapital (contoh: AuthController)
 $controllerFile = __DIR__ . "/app/controllers/" . ucfirst($page) . "Controller.php";
 if (!file_exists($controllerFile)) {
     echo "<h1>404 - Controller Tidak Ditemukan</h1>";
@@ -48,6 +60,9 @@ if ($page === 'auth') {
     if ($param === 'logout' && method_exists($controller, 'logout')) { $controller->logout(); exit; }
     if ($param === 'register' && method_exists($controller, 'register')) { $controller->register(); exit; }
     if ($param === 'storeUser' && method_exists($controller, 'storeUser')) { $controller->storeUser(); exit; }
+    
+    // Default fallback jika hanya mengakses /auth
+    if (!$param && method_exists($controller, 'login')) { $controller->login(); exit; }
 }
 
 // 2. Modul CRUD & Transaksi Umum
