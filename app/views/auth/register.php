@@ -17,7 +17,7 @@
             <div class="alert alert-danger py-2 text-center small"><?= htmlspecialchars($error) ?></div>
         <?php endif; ?>
 
-        <form action="/donasi/auth/storeUser" method="POST" autocomplete="off">
+        <form action="/auth/storeUser" method="POST" autocomplete="off">
             <div class="mb-3">
                 <label class="form-label fw-bold small text-muted">Nama Lengkap</label>
                 <input type="text" name="nama" class="form-control" placeholder="Masukkan nama Anda" required>
@@ -34,7 +34,7 @@
             <button type="submit" class="btn btn-primary w-100 fw-bold">Daftar Sekarang</button>
             
             <div class="mt-3 text-center">
-                <span class="small text-muted">Sudah punya akun? <a href="/donasi/auth/login" class="text-primary fw-bold text-decoration-none">Login di sini</a></span>
+                <span class="small text-muted">Sudah punya akun? <a href="/auth/login" class="text-primary fw-bold text-decoration-none">Login di sini</a></span>
             </div>
         </form>
     </div>
