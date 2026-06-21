@@ -1,0 +1,11 @@
+# Mengabaikan file konfigurasi database sensitif
+config/database.php
+
+# Mengabaikan folder IDE
+.vscode/
+.idea/
+
+# Mengabaikan file log atau file sampah sistem
+*.log
+.DS_Store
+Thumbs.db

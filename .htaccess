@@ -1,0 +1,8 @@
+RewriteEngine On
+
+# Abaikan file atau direktori yang memang benar-benar ada secara fisik (misal: aset CSS/JS)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Arahkan semua request URL lainnya ke index.php
+RewriteRule ^(.*)$ index.php [QSA,L]
