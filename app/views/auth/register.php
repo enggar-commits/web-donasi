@@ -1,7 +1,4 @@
-<?php
-// Deteksi environment otomatis: localhost (XAMPP) pakai /donasi, Railway (Cloud) kosongkan
-$baseUrl = ($_SERVER['HTTP_HOST'] == 'localhost') ? '/donasi' : '';
-?>
+<?php $baseUrl = ($_SERVER['HTTP_HOST'] == 'localhost') ? '/donasi' : ''; ?>
 <!DOCTYPE html>
 <html lang="id">
 <head>

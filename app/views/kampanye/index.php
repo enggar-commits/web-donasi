@@ -1,3 +1,4 @@
+<?php $baseUrl = ($_SERVER['HTTP_HOST'] == 'localhost') ? '/donasi' : ''; ?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -17,17 +18,17 @@
 
     <nav class="navbar navbar-expand-lg bg-white shadow-sm mb-4 py-3">
         <div class="container">
-            <a class="navbar-brand" href="/donasi/">Web Donasi</a>
+            <a class="navbar-brand" href="<?= $baseUrl ?>/">Web Donasi</a>
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav me-auto">
-                    <li class="nav-item"><a class="nav-link active fw-bold text-primary" href="/donasi/kampanye">Kampanye</a></li>
+                    <li class="nav-item"><a class="nav-link active fw-bold text-primary" href="<?= $baseUrl ?>/kampanye">Kampanye</a></li>
                     <?php if($_SESSION['role'] === 'admin'): ?>
-                        <li class="nav-item"><a class="nav-link text-muted" href="/donasi/transaksi">Data Donasi</a></li>
+                        <li class="nav-item"><a class="nav-link text-muted" href="<?= $baseUrl ?>/transaksi">Data Donasi</a></li>
                     <?php endif; ?>
                 </ul>
                 <div class="d-flex align-items-center">
                     <span class="me-3 text-muted">Halo, <b><?= htmlspecialchars($_SESSION['nama']) ?></b> <span class="badge bg-secondary ms-1"><?= strtoupper($_SESSION['role']) ?></span></span>
-                    <a href="/donasi/auth/logout" class="btn btn-sm btn-outline-danger">Logout</a>
+                    <a href="<?= $baseUrl ?>/auth/logout" class="btn btn-sm btn-outline-danger">Logout</a>
                 </div>
             </div>
         </div>
@@ -40,7 +41,7 @@
                 <p class="text-muted small">Bantu sesama mewujudkan harapan mereka.</p>
             </div>
             <?php if($_SESSION['role'] === 'admin'): ?>
-                <a href="/donasi/kampanye/tambah" class="btn btn-custom">+ Tambah Kampanye</a>
+                <a href="<?= $baseUrl ?>/kampanye/tambah" class="btn btn-custom">+ Tambah Kampanye</a>
             <?php endif; ?>
         </div>
 
@@ -75,8 +76,8 @@
                                 </td>
                                 <td class="py-3 text-center"><span class="badge bg-<?= $row['status']=='aktif'?'success':'secondary' ?>"><?= ucfirst($row['status']) ?></span></td>
                                 <td class="py-3 text-center">
-                                    <a href="/donasi/kampanye/edit/<?= $row['id_kampanye'] ?>" class="btn btn-sm btn-warning text-white">Edit</a>
-                                    <a href="/donasi/kampanye/hapus/<?= $row['id_kampanye'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Hapus?');">Hapus</a>
+                                    <a href="<?= $baseUrl ?>/kampanye/edit/<?= $row['id_kampanye'] ?>" class="btn btn-sm btn-warning text-white">Edit</a>
+                                    <a href="<?= $baseUrl ?>/kampanye/hapus/<?= $row['id_kampanye'] ?>" class="btn btn-sm btn-danger" onclick="return confirm('Hapus?');">Hapus</a>
                                 </td>
                             </tr>
                             <?php endforeach; else: ?>
@@ -91,22 +92,21 @@
                 <?php if(!empty($data)): foreach($data as $row): 
                     $persentase = ($row['target_dana'] > 0) ? round(($row['dana_terkumpul'] / $row['target_dana']) * 100) : 0;
                     
-                    // --- LOGIKA THUMBNAIL OTOMATIS BERDASARKAN KATA KUNCI JUDUL ---
+                    // --- LOGIKA THUMBNAIL OTOMATIS ---
                     $judul_lower = strtolower($row['judul_kampanye']);
-                    $default_img = 'https://images.unsplash.com/photo-1532629345422-7515f3d16bb0?w=500&q=80'; // Default: Tangan Peduli
+                    $default_img = 'https://images.unsplash.com/photo-1532629345422-7515f3d16bb0?w=500&q=80';
                     
                     if (strpos($judul_lower, 'bencana') !== false || strpos($judul_lower, 'banjir') !== false || strpos($judul_lower, 'gempa') !== false) {
-                        $default_img = 'https://images.unsplash.com/photo-1528323273322-d81458248d40?w=500&q=80'; // Gambar Bencana/Banjir
+                        $default_img = 'https://images.unsplash.com/photo-1528323273322-d81458248d40?w=500&q=80';
                     } elseif (strpos($judul_lower, 'sakit') !== false || strpos($judul_lower, 'medis') !== false || strpos($judul_lower, 'operasi') !== false) {
-                        $default_img = 'https://images.unsplash.com/photo-1538108149393-fbbd81895907?w=500&q=80'; // Gambar Rumah Sakit/Medis
+                        $default_img = 'https://images.unsplash.com/photo-1538108149393-fbbd81895907?w=500&q=80';
                     } elseif (strpos($judul_lower, 'sekolah') !== false || strpos($judul_lower, 'pendidikan') !== false || strpos($judul_lower, 'guru') !== false) {
-                        $default_img = 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=500&q=80'; // Gambar Pendidikan/Anak
+                        $default_img = 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=500&q=80';
                     } elseif (strpos($judul_lower, 'masjid') !== false || strpos($judul_lower, 'panti') !== false || strpos($judul_lower, 'yatim') !== false) {
-                        $default_img = 'https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?w=500&q=80'; // Gambar Masjid/Religi
+                        $default_img = 'https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?w=500&q=80';
                     }
 
-                    // Prioritaskan gambar dari database jika admin upload, jika kosong gunakan default image di atas
-                    $img_src = $row['gambar'] ? '/donasi/uploads/' . $row['gambar'] : $default_img;
+                    $img_src = $row['gambar'] ? $baseUrl . '/uploads/' . $row['gambar'] : $default_img;
                 ?>
                 <div class="col-md-4 mb-4">
                     <div class="card h-100 shadow-sm border-0 rounded-3 overflow-hidden">
@@ -122,7 +122,7 @@
                                     <span class="text-end">Target:<br><b>Rp <?= number_format($row['target_dana'], 0, ',', '.') ?></b></span>
                                 </div>
                                 <?php if($row['status'] == 'aktif'): ?>
-                                    <a href="/donasi/transaksi/bayar/<?= $row['id_kampanye'] ?>" class="btn btn-custom w-100 py-2">Donasi Sekarang</a>
+                                    <a href="<?= $baseUrl ?>/transaksi/bayar/<?= $row['id_kampanye'] ?>" class="btn btn-custom w-100 py-2">Donasi Sekarang</a>
                                 <?php else: ?>
                                     <button class="btn btn-secondary w-100 py-2" disabled>Program Selesai</button>
                                 <?php endif; ?>

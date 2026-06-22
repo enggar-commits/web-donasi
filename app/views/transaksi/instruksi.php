@@ -1,3 +1,4 @@
+<?php $baseUrl = ($_SERVER['HTTP_HOST'] == 'localhost') ? '/donasi' : ''; ?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -51,7 +52,7 @@
                     <?php endif; ?>
                 </div>
                 
-                <a href="/donasi/kampanye" class="btn btn-primary w-100 py-2 fw-bold mt-2">Selesai & Kembali ke Dashboard</a>
+                <a href="<?= $baseUrl ?>/kampanye" class="btn btn-primary w-100 py-2 fw-bold mt-2">Selesai & Kembali ke Dashboard</a>
             </div>
         </div>
     </div>

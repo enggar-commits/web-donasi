@@ -1,3 +1,4 @@
+<?php $baseUrl = ($_SERVER['HTTP_HOST'] == 'localhost') ? '/donasi' : ''; ?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -9,10 +10,10 @@
 <body class="bg-light">
     <nav class="navbar navbar-expand-lg bg-white shadow-sm mb-4 py-3">
         <div class="container">
-            <a class="navbar-brand fw-bold text-primary" href="/donasi/">Web Donasi</a>
+            <a class="navbar-brand fw-bold text-primary" href="<?= $baseUrl ?>/">Web Donasi</a>
             <div class="d-flex align-items-center ms-auto">
                 <span class="me-3 text-muted">Halo, <b><?= htmlspecialchars($_SESSION['nama']) ?></b></span>
-                <a href="/donasi/auth/logout" class="btn btn-sm btn-outline-danger">Logout</a>
+                <a href="<?= $baseUrl ?>/auth/logout" class="btn btn-sm btn-outline-danger">Logout</a>
             </div>
         </div>
     </nav>
@@ -23,7 +24,7 @@
                 <h5 class="mb-0 fw-bold">Formulir Edit Kampanye</h5>
             </div>
             <div class="card-body p-4">
-                <form action="/donasi/kampanye/update" method="POST" enctype="multipart/form-data">
+                <form action="<?= $baseUrl ?>/kampanye/update" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="id_kampanye" value="<?= htmlspecialchars($data['id_kampanye']) ?>">
 
                     <div class="mb-3">
@@ -59,7 +60,7 @@
                     </div>
 
                     <div class="d-flex justify-content-end gap-2">
-                        <a href="/donasi/kampanye" class="btn btn-outline-secondary px-4">Batal</a>
+                        <a href="<?= $baseUrl ?>/kampanye" class="btn btn-outline-secondary px-4">Batal</a>
                         <button type="submit" class="btn btn-warning text-dark px-4 fw-bold">Update Kampanye</button>
                     </div>
                 </form>

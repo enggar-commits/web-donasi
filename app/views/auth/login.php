@@ -1,3 +1,4 @@
+<?php $baseUrl = ($_SERVER['HTTP_HOST'] == 'localhost') ? '/donasi' : ''; ?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -20,7 +21,7 @@
             <div class="alert alert-success py-2 text-center small">Registrasi berhasil! Silakan login.</div>
         <?php endif; ?>
 
-        <form action="/donasi/auth/login" method="POST" autocomplete="off">
+        <form action="<?= $baseUrl ?>/auth/login" method="POST" autocomplete="off">
             <div class="mb-3">
                 <label class="form-label fw-bold small text-muted">Username</label>
                 <input type="text" name="username" class="form-control" autocomplete="off" required>
@@ -32,7 +33,7 @@
             <button type="submit" class="btn btn-primary w-100 fw-bold">Masuk</button>
             
             <div class="mt-3 text-center">
-                <span class="small text-muted">Belum punya akun? <a href="/donasi/auth/register" class="text-primary fw-bold text-decoration-none">Daftar di sini</a></span>
+                <span class="small text-muted">Belum punya akun? <a href="<?= $baseUrl ?>/auth/register" class="text-primary fw-bold text-decoration-none">Daftar di sini</a></span>
             </div>
         </form>
         

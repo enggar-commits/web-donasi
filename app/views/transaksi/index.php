@@ -1,3 +1,4 @@
+<?php $baseUrl = ($_SERVER['HTTP_HOST'] == 'localhost') ? '/donasi' : ''; ?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -11,15 +12,15 @@
 
     <nav class="navbar navbar-expand-lg bg-white shadow-sm mb-4 py-3">
         <div class="container">
-            <a class="navbar-brand" href="/donasi/">Web Donasi</a>
+            <a class="navbar-brand" href="<?= $baseUrl ?>/">Web Donasi</a>
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav me-auto">
-                    <li class="nav-item"><a class="nav-link" href="/donasi/kampanye">Kampanye</a></li>
-                    <li class="nav-item"><a class="nav-link active fw-bold text-primary" href="/donasi/transaksi">Data Donasi</a></li>
+                    <li class="nav-item"><a class="nav-link" href="<?= $baseUrl ?>/kampanye">Kampanye</a></li>
+                    <li class="nav-item"><a class="nav-link active fw-bold text-primary" href="<?= $baseUrl ?>/transaksi">Data Donasi</a></li>
                 </ul>
                 <div class="d-flex align-items-center">
                     <span class="me-3 text-muted">Halo, <b><?= htmlspecialchars($_SESSION['nama']) ?></b> <span class="badge bg-secondary ms-1"><?= strtoupper($_SESSION['role']) ?></span></span>
-                    <a href="/donasi/auth/logout" class="btn btn-sm btn-outline-danger">Logout</a>
+                    <a href="<?= $baseUrl ?>/auth/logout" class="btn btn-sm btn-outline-danger">Logout</a>
                 </div>
             </div>
         </div>
@@ -30,7 +31,7 @@
             <div>
                 <h3 class="fw-bold mb-0">Riwayat Donasi Masuk</h3>
             </div>
-            <a href="/donasi/transaksi/tambah" class="btn bg-custom fw-bold">+ Catat Donasi Baru</a>
+            <a href="<?= $baseUrl ?>/transaksi/tambah" class="btn bg-custom fw-bold">+ Catat Donasi Baru</a>
         </div>
 
         <div class="card shadow-sm border-0">

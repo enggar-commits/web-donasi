@@ -1,3 +1,4 @@
+<?php $baseUrl = ($_SERVER['HTTP_HOST'] == 'localhost') ? '/donasi' : ''; ?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -9,10 +10,10 @@
 <body class="bg-light">
     <nav class="navbar navbar-expand-lg bg-white shadow-sm mb-4 py-3">
         <div class="container">
-            <a class="navbar-brand fw-bold text-primary" href="/donasi/">Web Donasi</a>
+            <a class="navbar-brand fw-bold text-primary" href="<?= $baseUrl ?>/">Web Donasi</a>
             <div class="d-flex align-items-center ms-auto">
                 <span class="me-3 text-muted">Halo, <b><?= htmlspecialchars($_SESSION['nama']) ?></b></span>
-                <a href="/donasi/auth/logout" class="btn btn-sm btn-outline-danger">Logout</a>
+                <a href="<?= $baseUrl ?>/auth/logout" class="btn btn-sm btn-outline-danger">Logout</a>
             </div>
         </div>
     </nav>
@@ -23,7 +24,7 @@
                 <h6 class="text-muted text-center mb-1">Anda akan berdonasi untuk program:</h6>
                 <h5 class="fw-bold text-center text-primary mb-4">"<?= htmlspecialchars($kampanye['judul_kampanye']) ?>"</h5>
                 
-                <form action="/donasi/transaksi/store" method="POST">
+                <form action="<?= $baseUrl ?>/transaksi/store" method="POST">
                     <input type="hidden" name="id_kampanye" value="<?= $kampanye['id_kampanye'] ?>">
                     
                     <div class="mb-3">
@@ -53,7 +54,7 @@
 
                     <div class="d-grid gap-2">
                         <button type="submit" class="btn btn-primary btn-lg fw-bold">Lanjutkan Pembayaran</button>
-                        <a href="/donasi/kampanye" class="btn btn-outline-secondary">Batal</a>
+                        <a href="<?= $baseUrl ?>/kampanye" class="btn btn-outline-secondary">Batal</a>
                     </div>
                 </form>
             </div>

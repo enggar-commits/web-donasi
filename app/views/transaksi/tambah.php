@@ -1,3 +1,4 @@
+<?php $baseUrl = ($_SERVER['HTTP_HOST'] == 'localhost') ? '/donasi' : ''; ?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -13,7 +14,7 @@
                 <h5 class="mb-0 fw-bold">Catat Transaksi Donasi Manual</h5>
             </div>
             <div class="card-body p-4">
-                <form action="/donasi/transaksi/store" method="POST">
+                <form action="<?= $baseUrl ?>/transaksi/store" method="POST">
                     
                     <div class="mb-3">
                         <label class="form-label fw-bold text-muted small">Pilih Kampanye Tujuan *</label>
@@ -36,7 +37,7 @@
                     </div>
 
                     <div class="d-flex justify-content-end gap-2">
-                        <a href="/donasi/transaksi" class="btn btn-outline-secondary px-4">Batal</a>
+                        <a href="<?= $baseUrl ?>/transaksi" class="btn btn-outline-secondary px-4">Batal</a>
                         <button type="submit" class="btn text-white px-4 fw-bold" style="background-color: #4f46e5;">Simpan Transaksi</button>
                     </div>
                     
