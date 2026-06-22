@@ -3,9 +3,16 @@ require_once __DIR__ . '/../models/KampanyeModel.php';
 
 class KampanyeController {
     private $model;
+    private $baseUrl;
 
     public function __construct($pdo) {
-        if (!isset($_SESSION['user_id'])) { header('Location: /donasi/auth'); exit; }
+        // Deteksi base URL dinamis
+        $this->baseUrl = ($_SERVER['HTTP_HOST'] == 'localhost') ? '/donasi' : '';
+        
+        if (!isset($_SESSION['user_id'])) { 
+            header('Location: ' . $this->baseUrl . '/auth'); 
+            exit; 
+        }
         $this->model = new KampanyeModel($pdo);
     }
 
@@ -15,7 +22,10 @@ class KampanyeController {
     }
 
     private function checkAdmin() {
-        if ($_SESSION['role'] !== 'admin') { header('Location: /donasi/kampanye'); exit; }
+        if ($_SESSION['role'] !== 'admin') { 
+            header('Location: ' . $this->baseUrl . '/kampanye'); 
+            exit; 
+        }
     }
 
     public function create() {
@@ -36,7 +46,7 @@ class KampanyeController {
             }
 
             $this->model->create($_SESSION['user_id'], $_POST['judul_kampanye'], $gambar_name, $_POST['deskripsi'], $_POST['target_dana']);
-            header('Location: /donasi/kampanye');
+            header('Location: ' . $this->baseUrl . '/kampanye');
             exit;
         }
     }
@@ -44,7 +54,10 @@ class KampanyeController {
     public function edit($id) {
         $this->checkAdmin();
         $data = $this->model->getById($id);
-        if (!$data) { header('Location: /donasi/kampanye'); exit; }
+        if (!$data) { 
+            header('Location: ' . $this->baseUrl . '/kampanye'); 
+            exit; 
+        }
         include __DIR__ . '/../views/kampanye/edit.php';
     }
 
@@ -62,7 +75,7 @@ class KampanyeController {
             }
 
             $this->model->update($id, $_POST['judul_kampanye'], $gambar_name, $_POST['deskripsi'], $_POST['target_dana'], $_POST['status']);
-            header('Location: /donasi/kampanye');
+            header('Location: ' . $this->baseUrl . '/kampanye');
             exit;
         }
     }
@@ -70,7 +83,7 @@ class KampanyeController {
     public function delete($id) {
         $this->checkAdmin();
         $this->model->delete($id);
-        header('Location: /donasi/kampanye');
+        header('Location: ' . $this->baseUrl . '/kampanye');
         exit;
     }
 }
